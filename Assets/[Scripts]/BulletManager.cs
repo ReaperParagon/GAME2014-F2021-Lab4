@@ -7,12 +7,15 @@ public class BulletManager : MonoBehaviour
 {
     public Queue<GameObject> bulletPool;
     public int bulletNumber;
-    public GameObject bulletPrefab;
+
+    private BulletFactory factory;
 
     // Start is called before the first frame update
     void Start()
     {
         bulletPool = new Queue<GameObject>();
+        factory = GetComponent<BulletFactory>();
+
         // BuildBulletPool();
     }
 
@@ -26,9 +29,7 @@ public class BulletManager : MonoBehaviour
 
     private void AddBullet()
     {
-        var tempBullet = Instantiate(bulletPrefab);
-        tempBullet.SetActive(false);
-        tempBullet.transform.parent = transform;
+        var tempBullet = factory.createBullet(/* Bullet Type */);
         bulletPool.Enqueue(tempBullet);
     }
 
