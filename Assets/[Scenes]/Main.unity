@@ -282,8 +282,6 @@ GameObject:
   m_Component:
   - component: {fileID: 873042318}
   - component: {fileID: 873042317}
-  - component: {fileID: 873042320}
-  - component: {fileID: 873042319}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -332,34 +330,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &873042319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 873042316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ebaf149860c4bd4f83a34e672a6760a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyBulletNumber: 0
-  playerBulletNumber: 0
---- !u!114 &873042320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 873042316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b76c2da1c6646d4b9381d62b958a7be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyBullet: {fileID: 3266309029436432979, guid: e3e8c52fc441b914684e112bafc9c62d, type: 3}
-  playerBullet: {fileID: 3266309029436432979, guid: 53599ed2eeccc5d41b3b27fcc11627cd, type: 3}
 --- !u!1001 &3233212931871557912
 PrefabInstance:
   m_ObjectHideFlags: 0

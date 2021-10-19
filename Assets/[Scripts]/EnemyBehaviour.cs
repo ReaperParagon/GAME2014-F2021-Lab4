@@ -9,9 +9,7 @@ public class EnemyBehaviour : MonoBehaviour
     public Bound startingRange;
 
     [Header("Bullets")]
-    public BulletManager bulletManager;
     public Transform bulletSpawn;
-    public GameObject bulletPrefab;
     public int frameDelay;
 
     private float randomSpeed;
@@ -22,8 +20,6 @@ public class EnemyBehaviour : MonoBehaviour
     {
         randomSpeed = Random.Range(movementBound.min, movementBound.max);
         startingPoint = Random.Range(startingRange.min, startingRange.max);
-
-        bulletManager = GameObject.FindObjectOfType<BulletManager>();
     }
 
     // Update is called once per frame
@@ -36,10 +32,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (Time.frameCount % frameDelay == 0)
         {
-            //var tempBullet = Instantiate(bulletPrefab);
-            //tempBullet.transform.position = bulletSpawn.position;
-
-            bulletManager.GetBullet(bulletSpawn.position);
+            BulletManager.Instance().GetBullet(bulletSpawn.position);
         }
     }
 }

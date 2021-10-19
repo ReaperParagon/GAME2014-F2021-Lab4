@@ -3,82 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class BulletManager : MonoBehaviour
+public class BulletManager
 {
+    private static BulletManager instance = null;
+
+    private BulletManager()
+    {
+        Initialize();
+    }
+
+    public static BulletManager Instance()
+    {
+        if (instance == null)
+        {
+            instance = new BulletManager();
+        }
+
+        return instance;
+    }
+
     public Queue<GameObject> enemyBulletPool;
     public Queue<GameObject> playerBulletPool;
     public int enemyBulletNumber;
     public int playerBulletNumber;
 
-    private BulletFactory factory;
+    public List<Queue<GameObject>> bulletPools;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Initialize()
     {
-        enemyBulletPool = new Queue<GameObject>();
-        playerBulletPool = new Queue<GameObject>();
+        bulletPools = new List<Queue<GameObject>>();
 
-        factory = GetComponent<BulletFactory>();
-
-        // BuildBulletPool();
-    }
-
-    public void BuildBulletPool()
-    {
-        for (int i = 0; i < enemyBulletNumber; i++)
+        for (int count = 0; count < (int)BulletType.NUMBER_OF_BULLET_TYPES; count++)
         {
-            AddBullet();
+            bulletPools.Add(new Queue<GameObject>());
         }
     }
 
     private void AddBullet(BulletType type = BulletType.ENEMY)
     {
-        var tempBullet = factory.createBullet(type);
-
-        switch(type)
-        {
-            case BulletType.ENEMY:
-                enemyBulletPool.Enqueue(tempBullet);
-                enemyBulletNumber++;
-                break;
-            case BulletType.PLAYER:
-                playerBulletPool.Enqueue(tempBullet);
-                playerBulletNumber++;
-                break;
-        }
+        var tempBullet = BulletFactory.Instance().createBullet(type);
+        bulletPools[(int)type].Enqueue(tempBullet);
     }
 
     public GameObject GetBullet(Vector2 position, BulletType type = BulletType.ENEMY)
     {
         GameObject tempBullet = null;
 
-        switch(type)
+        if (bulletPools[(int)type].Count < 1)
         {
-            case BulletType.ENEMY:
-
-                if (enemyBulletPool.Count < 1)
-                {
-                    AddBullet();
-                }
-
-                tempBullet = enemyBulletPool.Dequeue();
-                tempBullet.transform.position = position;
-                tempBullet.SetActive(true);
-
-                break;
-            case BulletType.PLAYER:
-
-                if (playerBulletPool.Count < 1)
-                {
-                    AddBullet(BulletType.PLAYER);
-                }
-
-                tempBullet = playerBulletPool.Dequeue();
-                tempBullet.transform.position = position;
-                tempBullet.SetActive(true);
-
-                break;
+            AddBullet(type);
         }
+
+        tempBullet = bulletPools[(int)type].Dequeue();
+        tempBullet.transform.position = position;
+        tempBullet.SetActive(true);
 
         return tempBullet;
     }
@@ -86,15 +64,6 @@ public class BulletManager : MonoBehaviour
     public void ReturnBullet(GameObject bullet, BulletType type = BulletType.ENEMY)
     {
         bullet.SetActive(false);
-
-        switch(type)
-        {
-            case BulletType.ENEMY:
-                enemyBulletPool.Enqueue(bullet);
-                break;
-            case BulletType.PLAYER:
-                playerBulletPool.Enqueue(bullet);
-                break;
-        }
+        bulletPools[(int)type].Enqueue(bullet);
     }
 }
